@@ -1,7 +1,7 @@
 {
-  "name": "figma-api-exporter",
-  "author": "Sławomir Kołodziej",
-  "version": "0.0.2",
+  "name": "figma-exporter",
+  "author": "Nick",
+  "version": "0.0.1",
   "scripts": {
     "start": "ts-node-dev src/index.ts",
     "prepare": "tsc"

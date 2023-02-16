@@ -24,7 +24,7 @@ type ConfigFileData = {
 };
 
 const createDir = (dir: string): Promise<any> => {
-  return new Promise<void>(resolve => {
+  return new Promise<void>((resolve) => {
     if (!fs.existsSync(dir)) {
       fs.mkdir(dir, null, () => resolve());
     } else {
@@ -36,7 +36,7 @@ const createDir = (dir: string): Promise<any> => {
 const getDataFromConfig = async (
   configFilePath: string
 ): Promise<ConfigFileData> => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     fs.readFile(configFilePath, (err, data) => {
       if (err) {
         return resolve({});
@@ -49,16 +49,14 @@ const getDataFromConfig = async (
 
 const downloadSvgsData = (svgsData: SvgData[]): Promise<DownloadedSvgData[]> =>
   Promise.all(
-    svgsData.map(
-      async (data): Promise<DownloadedSvgData> => {
-        const downloadedSvg = await axios.get(data.url);
+    svgsData.map(async (data): Promise<DownloadedSvgData> => {
+      const downloadedSvg = await axios.get(data.url);
 
-        return {
-          data: downloadedSvg.data,
-          name: data.name
-        };
-      }
-    )
+      return {
+        data: downloadedSvg.data,
+        name: data.name,
+      };
+    })
   );
 
 const saveSvgsToFiles = async (
@@ -67,8 +65,8 @@ const saveSvgsToFiles = async (
 ): Promise<void> => {
   await Promise.all(
     downloadedSvgsData.map(
-      svgData =>
-        new Promise(resolve =>
+      (svgData) =>
+        new Promise((resolve) =>
           fs.writeFile(
             path.join(saveDirectory, `${svgData.name}.svg`),
             svgData.data,
@@ -83,7 +81,7 @@ const saveConfigFile = async (
   configFilePath: string,
   fileData: ConfigFileData
 ): Promise<any> => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     fs.writeFile(configFilePath, JSON.stringify(fileData), resolve);
   });
 };
@@ -113,8 +111,8 @@ export default async (config: DownloadSvgsConfig): Promise<void> => {
 
   await saveSvgsToFiles(downloadedSvgsData, config.saveDirectory);
 
-  await saveConfigFile(
-    path.join(config.saveDirectory, DOWNLOAD_CONFIG_FILENAME),
-    { lastModified: config.lastModified, componentIds }
-  );
+  // await saveConfigFile(
+  //   path.join(config.saveDirectory, DOWNLOAD_CONFIG_FILENAME),
+  //   { lastModified: config.lastModified, componentIds }
+  // );
 };
