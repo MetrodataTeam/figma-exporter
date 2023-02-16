@@ -6,6 +6,10 @@
     "start": "ts-node-dev src/index.ts",
     "prepare": "tsc"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NickJiangDev/figma-exporter"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "devDependencies": {
